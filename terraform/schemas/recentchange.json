@@ -1,0 +1,140 @@
+[
+  {
+    "name": "event_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Wikimedia meta.id (globally unique; de-dup key)"
+  },
+  {
+    "name": "event_ts",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "Event time (partition column, hourly)"
+  },
+  {
+    "name": "wiki",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Wiki database name, e.g. enwiki"
+  },
+  {
+    "name": "server_name",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Host, e.g. en.wikipedia.org"
+  },
+  {
+    "name": "change_type",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "edit | new | log | categorize | external"
+  },
+  {
+    "name": "namespace",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "MediaWiki namespace (0 = articles)"
+  },
+  {
+    "name": "title",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Page title"
+  },
+  {
+    "name": "user_name",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Editor username, IP or temporary account"
+  },
+  {
+    "name": "is_bot",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Edit flagged as bot"
+  },
+  {
+    "name": "is_minor",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Minor edit flag"
+  },
+  {
+    "name": "is_patrolled",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Patrolled flag (null when patrolling disabled)"
+  },
+  {
+    "name": "comment",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Edit summary"
+  },
+  {
+    "name": "is_revert",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Edit summary matches revert/undo patterns"
+  },
+  {
+    "name": "rc_id",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Recent-changes id"
+  },
+  {
+    "name": "rev_old",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Previous revision id"
+  },
+  {
+    "name": "rev_new",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "New revision id"
+  },
+  {
+    "name": "len_old",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Page length before (bytes)"
+  },
+  {
+    "name": "len_new",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Page length after (bytes)"
+  },
+  {
+    "name": "bytes_delta",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "len_new - len_old"
+  },
+  {
+    "name": "kafka_partition",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Lineage: Kafka partition"
+  },
+  {
+    "name": "kafka_offset",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Lineage: Kafka offset"
+  },
+  {
+    "name": "kafka_ts",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "Lineage: Kafka append time"
+  },
+  {
+    "name": "ingest_ts",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "Lineage: Spark processing time"
+  }
+]

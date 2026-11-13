@@ -1,0 +1,3 @@
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+# billing_account_id = "XXXXXX-XXXXXX-XXXXXX"   # optional: creates a $1 budget alert

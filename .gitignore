@@ -1,0 +1,12 @@
+.env
+secrets/*
+*.json.key
+__pycache__/
+.pytest_cache/
+.venv/
+terraform/.terraform/
+terraform/*.tfstate*
+terraform/terraform.tfvars
+terraform/.terraform.lock.hcl
+spark-warehouse/
+!secrets/.gitkeep

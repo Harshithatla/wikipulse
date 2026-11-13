@@ -1,0 +1,8 @@
+pyspark==4.0.1
+duckdb==2.0.0
+pyarrow>=17
+confluent-kafka==2.16.1
+requests==2.34.2
+python-hcl2>=5
+pytest>=8
+ruff>=0.6
