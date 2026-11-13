@@ -2,8 +2,6 @@ SHELL := /bin/bash
 TF    := terraform -chdir=terraform
 DC    := docker compose
 KAFKA := $(DC) exec -T kafka /opt/kafka/bin
-# GCP key is kept outside the repo so it never lands in git or a synced folder (iCloud, Dropbox).
-SECRETS_DIR ?= $(HOME)/.wikipulse
 
 .DEFAULT_GOAL := help
 .PHONY: ui help infra env sa-key up up-live down nuke logs ps topics alerts dlq tail-raw trigger reconcile test lint destroy
@@ -28,12 +26,11 @@ env: ## Write GCP settings from terraform outputs into .env
 	  [ -n "$$k" ] && { sed -i.bak "/^$$k=/d" .env && echo "$$k=$$v" >> .env; }; done; rm -f .env.bak
 	@echo ".env updated"; grep -E '^WIKIPULSE_(GCP_PROJECT|BUCKET|BQ_LOCATION)=' .env
 
-sa-key: ## Create a key for the pipeline service account in ~/.wikipulse/sa.json
-	@mkdir -p $(SECRETS_DIR) && chmod 700 $(SECRETS_DIR)
-	gcloud iam service-accounts keys create $(SECRETS_DIR)/sa.json \
+sa-key: ## Create a key for the pipeline service account into ./secrets/sa.json (git-ignored)
+	@mkdir -p secrets
+	gcloud iam service-accounts keys create secrets/sa.json \
 	  --iam-account "$$($(TF) output -raw service_account_email)"
-	@chmod 600 $(SECRETS_DIR)/sa.json
-	@echo "key written to $(SECRETS_DIR)/sa.json (outside the repo)"
+	@chmod 600 secrets/sa.json
 
 destroy: ## Tear down all cloud resources
 	$(TF) destroy

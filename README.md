@@ -94,7 +94,7 @@ Spark UI: http://localhost:4040 (Structured Streaming tab: input rate, batch dur
 cp terraform/terraform.tfvars.example terraform/terraform.tfvars   # set project_id (+ billing_account_id)
 gcloud auth application-default login
 make infra     # GCS bucket, BigQuery datasets/tables/view, service account, IAM, budget
-make sa-key    # writes ~/.wikipulse/sa.json: outside the repo, never in git or a synced folder
+make sa-key    # writes ./secrets/sa.json (git-ignored; deliberately not created in Terraform)
 make env       # copies bucket/project/location from terraform outputs into .env
 ```
 
