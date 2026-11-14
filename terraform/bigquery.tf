@@ -125,9 +125,13 @@ resource "google_bigquery_table" "v_trending_latest" {
         CONCAT('https://', w.server_name, '/wiki/', REPLACE(t.title, ' ', '_')) AS url
       FROM `${var.project_id}.${google_bigquery_dataset.analytics.dataset_id}.trending_hourly` AS t
       LEFT JOIN (
-        SELECT DISTINCT wiki, server_name
+        -- One host per wiki, taken from article edits only: login/account log events
+        -- for e.g. enwiki come from auth.wikimedia.org and would duplicate every row.
+        SELECT wiki, APPROX_TOP_COUNT(server_name, 1)[OFFSET(0)].value AS server_name
         FROM `${var.project_id}.${google_bigquery_dataset.raw.dataset_id}.recentchange`
-        WHERE event_ts >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 DAY) AND server_name IS NOT NULL
+        WHERE event_ts >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 DAY)
+          AND server_name IS NOT NULL AND change_type IN ('edit', 'new') AND namespace = 0
+        GROUP BY wiki
       ) AS w USING (wiki)
       WHERE t.hour_ts = (
         SELECT MAX(hour_ts) FROM `${var.project_id}.${google_bigquery_dataset.analytics.dataset_id}.trending_hourly`
